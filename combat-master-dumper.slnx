@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="src/combat-master-dumper.vcxproj" />
+  <Project Path="injector/injector.vcxproj" />
+</Solution>

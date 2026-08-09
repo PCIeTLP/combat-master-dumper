@@ -1,0 +1,17 @@
+bin/
+obj/
+out/
+
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.VC.db
+*.VC.opendb
+
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.idb
