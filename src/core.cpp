@@ -1,5 +1,6 @@
 #include "dumper.h"
 #include "sweep.h"
+#include "ui.h"
 #include <algorithm>
 #include <cstdarg>
 #include <tlhelp32.h>
@@ -17,6 +18,7 @@ void Log(const char* fmt, ...) {
     va_end(ap);
     if (g_log) { fputs(buf, g_log); fputc('\n', g_log); fflush(g_log); }
     OutputDebugStringA(buf); OutputDebugStringA("\n");
+    UiLogLine(buf);
 }
 
 void LogClose() { if (g_log) { fclose(g_log); g_log = nullptr; } }

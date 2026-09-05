@@ -89,9 +89,16 @@ injector.exe --pid 1234
 injector.exe --process CombatMaster.exe --unload
 ```
 
-Output goes to `%LOCALAPPDATA%\il2cpp_dump\`, and `DONE.txt` is written last. The DLL unloads
-itself when it finishes, so it leaves nothing in the module list. Injected at startup it waits
-for IL2CPP to finish initialising instead of failing.
+Output goes to `il2cpp_dump\` beside the injected DLL, falling back to
+`%LOCALAPPDATA%\il2cpp_dump\` when that directory is not writable. `DONE.txt` is written last, and
+when the run finishes the folder opens in Explorer and is brought to the front. The DLL unloads
+itself when it finishes, so it leaves nothing in the module list. Injected at startup it waits for
+IL2CPP to finish initialising instead of failing.
+
+While it runs, a small always-on-top window shows the current stage, a progress bar and the live
+log tail. It owns a separate thread and message loop, so it never blocks the dump, and it is
+created `WS_EX_NOACTIVATE` so it does not take focus from the game. Drag it anywhere. Under
+exclusive fullscreen it will not be visible — play borderless, or turn it off and read `dump.log`.
 
 Read from the target's environment:
 
@@ -99,6 +106,9 @@ Read from the target's environment:
 |---|---|
 | `IL2CPP_DUMP_OUT` | Output directory |
 | `IL2CPP_DUMP_WAIT` | Seconds to wait for the runtime (default 30) |
+| `IL2CPP_DUMP_UI=0` | Disable the progress window |
+| `IL2CPP_DUMP_UI_LINGER` | Seconds the window stays up after finishing (default 3) |
+| `IL2CPP_DUMP_OPEN=0` | Do not open the output folder when done |
 | `IL2CPP_DUMP_MSGBOX=1` | Popup on completion (off by default; invisible under fullscreen) |
 
 ## Output
@@ -222,7 +232,8 @@ src/           the dumper
   core.cpp       memory access, string-blob detection, class discovery, type naming
   fit.cpp        every offset fit
   emit.cpp       all output files
-  dllmain.cpp    entry point, build identity, self-unload
+  ui.h/ui.cpp    the progress window, on its own thread
+  dllmain.cpp    entry point, build identity, output location, self-unload
 injector/      LoadLibrary loader
 ```
 

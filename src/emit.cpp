@@ -62,16 +62,11 @@ void EmitDumpCs(Context& ctx, const std::string& path) {
     if (fopen_s(&f, path.c_str(), "w") != 0 || !f) { Log("[!] cannot write %s", path.c_str()); return; }
     setvbuf(f, nullptr, _IOFBF, 1 << 22);
 
-    fprintf(f, "// Dumped with combat-master-dumper (no global-metadata.dat required)\n");
+    fprintf(f, "// Dumped with combat-master-dumper\n");
     fprintf(f, "// GameAssembly.dll base 0x%llX  size 0x%llX  build %08X\n",
             ctx.gaBase, ctx.gaSize, ctx.gaTimeStamp);
     if (!ctx.unityVersion.empty()) fprintf(f, "// Unity %s\n", ctx.unityVersion.c_str());
-    fprintf(f, "// %zu types across %zu assemblies\n", ctx.classes.size(), ctx.images.size());
-    fprintf(f, "//\n");
-    fprintf(f, "// Stable across runs:  method RVAs, instance field offsets, static field offsets.\n");
-    fprintf(f, "// THIS SESSION ONLY:   Il2CppClass and static_fields addresses are heap\n");
-    fprintf(f, "//                      allocations and differ every launch. Resolve a class at\n");
-    fprintf(f, "//                      runtime instead of hardcoding those.\n\n");
+    fprintf(f, "// %zu types across %zu assemblies\n\n", ctx.classes.size(), ctx.images.size());
 
     for (size_t ii = 0; ii < ctx.images.size(); ii++)
         fprintf(f, "// Image %zu: %s - %zu types\n", ii, ctx.images[ii].name.c_str(),

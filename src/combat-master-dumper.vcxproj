@@ -56,7 +56,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>psapi.lib;shell32.lib;ole32.lib;advapi32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>psapi.lib;shell32.lib;ole32.lib;advapi32.lib;user32.lib;gdi32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation Condition="'$(Configuration)'=='Release'">false</GenerateDebugInformation>
       <GenerateDebugInformation Condition="'$(Configuration)'=='Debug'">true</GenerateDebugInformation>
       <AdditionalOptions Condition="'$(Configuration)'=='Release'">/Brepro /emittoolversioninfo:no %(AdditionalOptions)</AdditionalOptions>
@@ -69,12 +69,14 @@
     <ClCompile Include="core.cpp" />
     <ClCompile Include="fit.cpp" />
     <ClCompile Include="emit.cpp" />
+    <ClCompile Include="ui.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
 
   <ItemGroup>
     <ClInclude Include="dumper.h" />
     <ClInclude Include="sweep.h" />
+    <ClInclude Include="ui.h" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
